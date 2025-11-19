@@ -8,40 +8,20 @@ class Wallet:
         self._balance = 0.0
 
     @property
-    def balance(self):
+    def balance(self) -> float:
         return self._balance
 
     def deposit(self, amount: float) -> None:
-        if amount >= 0:
-            self._balance += amount
-        else:
-            print("Ошибка")
-            raise ValueError
+        if amount < 0:
+            raise ValueError("Deposit amount must be positive")
+        self._balance += amount
 
     def withdraw(self, amount: float) -> None:
-        if amount <= self._balance:
-            self._balance -= amount
-        else:
-            print("Ошибка")
-            raise InsufficientFundsError
+        if amount < 0:
+            raise ValueError("Withdraw amount must be positive")
+        if amount > self._balance:
+            raise InsufficientFundsError("Not enough funds")
+        self._balance -= amount
 
     def __str__(self) -> str:
-        return 'Wallet of ' + self._name + ': ' + str(self._balance) + ' ' + self._currency
-
-
-if __name__ == "__main__":
-    wallet = Wallet("Alex", "USD")
-    wallet.deposit(100.0)
-    print(wallet)
-
-    try:
-        wallet.withdraw(150.0)
-    except InsufficientFundsError:
-        print("Caught expected error: Not enough money")
-
-    try:
-        wallet.deposit(-50)
-    except ValueError:
-        print("Caught expected error: Negative amount")
-
-    print(f"Final balance: {wallet.balance}")
+        return f'Wallet of {self._name}: {self._balance} {self._currency}'
