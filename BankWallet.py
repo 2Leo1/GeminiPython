@@ -8,6 +8,14 @@ class Wallet:
         self._balance = 0.0
 
     @property
+    def name(self) -> str:
+        return self._name
+
+    @property
+    def currency(self) -> str:
+        return self._currency
+
+    @property
     def balance(self) -> float:
         return self._balance
 
